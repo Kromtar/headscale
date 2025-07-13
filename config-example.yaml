@@ -95,8 +95,8 @@ derp:
     stun_listen_addr: "0.0.0.0:3478"
 
     # By default, the port specified in stun_listen_addr is both advertised by the DERP server and used for local packet listening.
-    # The stun_port_promote option allows promoting a different port instead, while stun_listen_addr is used only for local listening.
-    # stun_port_promote: "8888"
+    # The stun_advertised_port option allows promoting a different port instead, while stun_listen_addr is used only for local listening.
+    # stun_advertised_port: "8888"
 
     # Private key used to encrypt the traffic between headscale DERP and
     # Tailscale clients. A missing key will be automatically generated.

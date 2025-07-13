@@ -103,17 +103,17 @@ func (d *DERPServer) GenerateRegion() (tailcfg.DERPRegion, error) {
 		},
 	}
 
-	var portStrunPromote string
-	if d.cfg.STUNPortPromote != "" {
-		portStrunPromote = d.cfg.STUNPortPromote
+	var stunAdvertisedPort string
+	if d.cfg.STUNAdvertisedPort != "" {
+		stunAdvertisedPort = d.cfg.STUNAdvertisedPort
 	}else{
 		_, portSTUNStr, err := net.SplitHostPort(d.cfg.STUNAddr)
 	    if err != nil {
 	  	  return tailcfg.DERPRegion{}, err
 	    }
-	    portStrunPromote = portSTUNStr
+	    stunAdvertisedPort = portSTUNStr
     }
-	portSTUN, err := strconv.Atoi(portStrunPromote)
+	portSTUN, err := strconv.Atoi(stunAdvertisedPort)
 	if err != nil {
 		return tailcfg.DERPRegion{}, err
 	}
