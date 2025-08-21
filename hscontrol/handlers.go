@@ -91,7 +91,7 @@ func (h *Headscale) handleVerifyRequest(
 
 	var derpAdmitClientRequest tailcfg.DERPAdmitClientRequest
 	if err := json.Unmarshal(body, &derpAdmitClientRequest); err != nil {
-		return fmt.Errorf("cannot parse derpAdmitClientRequest: %w", err)
+		return NewHTTPError(http.StatusBadRequest, "Bad Request: invalid JSON", fmt.Errorf("cannot parse derpAdmitClientRequest: %w", err))
 	}
 
 	nodes, err := h.state.ListNodes()
@@ -178,6 +178,21 @@ func (h *Headscale) HealthHandler(
 	}
 
 	respond(nil)
+}
+
+func (h *Headscale) RobotsHandler(
+	writer http.ResponseWriter,
+	req *http.Request,
+) {
+	writer.Header().Set("Content-Type", "text/plain")
+	writer.WriteHeader(http.StatusOK)
+	_, err := writer.Write([]byte("User-agent: *\nDisallow: /"))
+	if err != nil {
+		log.Error().
+			Caller().
+			Err(err).
+			Msg("Failed to write response")
+	}
 }
 
 var codeStyleRegisterWebAPI = styles.Props{

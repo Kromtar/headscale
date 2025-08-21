@@ -235,6 +235,7 @@ type Tuning struct {
 	NotifierSendTimeout            time.Duration
 	BatchChangeDelay               time.Duration
 	NodeMapSessionBufferedChanSize int
+	BatcherWorkers                 int
 }
 
 func validatePKCEMethod(method string) error {
@@ -297,6 +298,7 @@ func LoadConfig(path string, isFile bool) error {
 	viper.SetDefault("dns.search_domains", []string{})
 
 	viper.SetDefault("derp.server.enabled", false)
+	viper.SetDefault("derp.server.verify_clients", true)
 	viper.SetDefault("derp.server.stun.enabled", true)
 	viper.SetDefault("derp.server.automatically_add_embedded_derp_region", true)
 
@@ -994,6 +996,12 @@ func LoadServerConfig() (*Config, error) {
 			NodeMapSessionBufferedChanSize: viper.GetInt(
 				"tuning.node_mapsession_buffered_chan_size",
 			),
+			BatcherWorkers: func() int {
+				if workers := viper.GetInt("tuning.batcher_workers"); workers > 0 {
+					return workers
+				}
+				return DefaultBatcherWorkers()
+			}(),
 		},
 	}, nil
 }

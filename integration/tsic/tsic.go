@@ -202,7 +202,7 @@ func WithExtraLoginArgs(args []string) Option {
 	}
 }
 
-// WithAcceptRoutes tells the node to accept incomming routes.
+// WithAcceptRoutes tells the node to accept incoming routes.
 func WithAcceptRoutes() Option {
 	return func(tsic *TailscaleInContainer) {
 		tsic.withAcceptRoutes = true
@@ -319,6 +319,7 @@ func New(
 			dockertestutil.DockerRestartPolicy,
 			dockertestutil.DockerAllowLocalIPv6,
 			dockertestutil.DockerAllowNetworkAdministration,
+			dockertestutil.DockerMemoryLimit,
 		)
 	case "unstable":
 		tailscaleOptions.Repository = "tailscale/tailscale"
@@ -329,6 +330,7 @@ func New(
 			dockertestutil.DockerRestartPolicy,
 			dockertestutil.DockerAllowLocalIPv6,
 			dockertestutil.DockerAllowNetworkAdministration,
+			dockertestutil.DockerMemoryLimit,
 		)
 	default:
 		tailscaleOptions.Repository = "tailscale/tailscale"
@@ -339,6 +341,7 @@ func New(
 			dockertestutil.DockerRestartPolicy,
 			dockertestutil.DockerAllowLocalIPv6,
 			dockertestutil.DockerAllowNetworkAdministration,
+			dockertestutil.DockerMemoryLimit,
 		)
 	}
 

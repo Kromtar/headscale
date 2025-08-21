@@ -19,7 +19,7 @@
       overlay = _: prev: let
         pkgs = nixpkgs.legacyPackages.${prev.system};
         buildGo = pkgs.buildGo124Module;
-        vendorHash = "sha256-S2GnCg2dyfjIyi5gXhVEuRs5Bop2JAhZcnhg1fu4/Gg=";
+        vendorHash = "sha256-83L2NMyOwKCHWqcowStJ7Ze/U9CJYhzleDRLrJNhX2g=";
       in {
         headscale = buildGo {
           pname = "headscale";
@@ -143,7 +143,6 @@
           yq-go
           ripgrep
           postgresql
-          traceroute
 
           # 'dot' is needed for pprof graphs
           # go tool pprof -http=: <source>
@@ -160,7 +159,8 @@
 
           # Add hi to make it even easier to use ci runner.
           hi
-        ];
+        ]
+        ++ lib.optional pkgs.stdenv.isLinux [traceroute];
 
       # Add entry to build a docker image with headscale
       # caveat: only works on Linux
